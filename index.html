@@ -1,166 +1,155 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>退館報告フォーム</title>
-    <style>
-        body { font-family: sans-serif; margin: 0; padding: 20px; background-color: #f8f9fa; color: #33; }
-        .container { max-width: 600px; margin: 0 auto; background: #ffffff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-top: 6px solid #2b579a; }
-        h1 { font-size: 20px; color: #2b579a; text-align: center; margin-bottom: 20px; }
-        .section-title { font-size: 15px; font-weight: bold; color: #2b579a; border-left: 4px solid #2b579a; padding-left: 8px; margin: 25px 0 15px; }
-        .form-group { margin-bottom: 18px; }
-        label { display: block; font-weight: bold; margin-bottom: 8px; }
-        .required { color: #de3545; font-size: 12px; margin-left: 5px; }
-        input[type="text"], input[type="date"], input[type="time"], textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
-        .radio-group, .checkbox-group { background: #fafafa; border: 1px solid #eee; border-radius: 6px; padding: 15px; }
-        .block-item { display: block; margin-bottom: 15px; font-size: 16px; cursor: pointer; }
-        .block-item:last-child { margin-bottom: 0; }
-        .block-item input { margin-right: 10px; transform: scale(1.3); vertical-align: middle; }
-        .office-section { display: none; } /* 初期状態は非表示 */
-        button { display: block; width: 100%; padding: 14px; background-color: #2b579a; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 25px; }
-        button:hover { background-color: #1e3d6b; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>退館報告フォーム</title>
+<style>
+body { font-family: sans-serif; margin: 0; padding: 20px; background-color: #f8f9fa; color: #333; }
+.container { max-width: 600px; margin: 0 auto; background: #ffffff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-top: 6px solid #2b579a; }
+h1 { font-size: 20px; color: #2b579a; text-align: center; margin-bottom: 20px; }
+.section-title { font-size: 15px; font-weight: bold; color: #2b579a; border-left: 4px solid #2b579a; padding-left: 8px; margin: 25px 0 15px; }
+.form-group { margin-bottom: 18px; }
+label { display: block; font-weight: bold; margin-bottom: 8px; }
+.required { color: #de3545; font-size: 12px; margin-left: 5px; }
+input[type="text"], input[type="date"], input[type="time"], textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
+.radio-group, .checkbox-group { background: #fafafa; border: 1px solid #eee; border-radius: 6px; padding: 15px; }
+.block-item { display: block; margin-bottom: 15px; font-size: 16px; cursor: pointer; }
+.block-item:last-child { margin-bottom: 0; }
+.block-item input { margin-right: 10px; transform: scale(1.3); vertical-align: middle; }
+.office-section { display: none; }
+button { display: block; width: 100%; padding: 14px; background-color: #2b579a; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 25px; }
+button:hover { background-color: #1e3d6b; }
+</style>
 </head>
 <body>
-
 <div class="container">
-    <h1>退館報告フォーム</h1>
-    <form id="surveyForm">
-        <div class="section-title">基本情報</div>
-        <div class="form-group">
-            <label for="quitDate">退館日<span class="required">※必須</span></label>
-            <input type="date" id="quitDate" required>
-        </div>
-        <div class="form-group">
-            <label for="quitTime">退館時刻<span class="required">※必須</span></label>
-            <input type="time" id="quitTime" required>
-        </div>
-        <div class="form-group">
-            <label for="exitName">最終退館者名<span class="required">※必須</span></label>
-            <input type="text" id="exitName" placeholder="山田 太郎" required>
-        </div>
-        
-        <div class="form-group">
-            <label>対象オフィス<span class="required">※必須</span></label>
-            <div class="radio-group">
-                <label class="block-item"><input type="radio" name="office" value="山京" required onclick="toggleOffice()"> 山京</label>
-                <label class="block-item"><input type="radio" name="office" value="コルティーレ" onclick="toggleOffice()"> コルティーレ</label>
-            </div>
-        </div>
-        
-        <div id="sankyoSection" class="office-section">
-            <div class="section-title">施錠・電気・照明の消灯確認【山京】<span class="required">※すべて必須</span></div>
-            <div class="form-group">
-                <div class="checkbox-group">
-                    <label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_window"> 【山京】各部屋の窓</label>
-                    <label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_veranda"> 【山京】ベランダの鍵</label>
-                    <label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_aircon"> 【山京】エアコン</label>
-                    <label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_office_light"> 【山京】執務室の照明</label>
-                    <label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_meeting_light"> 【山京】会議室の照明</label>
-                    <label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_toilet_light"> 【山京】トイレの照明</label>
-                    <label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_kitchen_light"> 【山京】給湯室の照明</label>
-                    <label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_post"> 【山京】ポストの鍵を閉める</label>
-                    <label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_ev"> 【山京】EV施錠</label>
-                </div>
-            </div>
-        </div>
-
-        <div id="cortileSection" class="office-section">
-            <div class="section-title">施錠・電気・照明の消灯確認【コルティーレ】<span class="required">※すべて必須</span></div>
-            <div class="form-group">
-                <div class="checkbox-group">
-                    <label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_window"> 【コルティーレ】各部屋の窓</label>
-                    <label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_smoke_light"> 【コルティーレ】喫煙所電気</label>
-                    <label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_smoke_hvac"> 【コルティーレ】喫煙所のエアコンorヒーター</label>
-                    <label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_office_aircon"> 【コルティーレ】執務室内エアコン</label>
-                    <label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_roomA_aircon"> 【コルティーレ】会議室Aエアコン</label>
-                    <label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_roomB_aircon"> 【コルティーレ】会議室Bエアコン</label>
-                    <label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_roomC_aircon"> 【コルティーレ】会議室Cエアコン</label>
-                    <label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_office_light"> 【コルティーレ】執務室の照明</label>
-                    <label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_lock_kitchen"> 【コルティーレ】執務室の施錠（給湯室側入り口）</label>
-                    <label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_lock_meeting"> 【コルティーレ】執務室の施錠（会議室側入り口）</label>
-                    <label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_room_light"> 【コルティーレ】会議室の照明</label>
-                    <label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_ent_light"> 【コルティーレ】エントランスの照明</label>
-                    <label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_secom"> 【コルティーレ】セコム施錠</label>
-                </div>
-            </div>
-        </div>
-        
-        <div class="section-title">その他</div>
-        <div class="form-group">
-            <label for="irregular">イレギュラー事項があれば記入（記述式）</label>
-            <textarea id="irregular" rows="4" placeholder="特記事項があれば入力してください"></textarea>
-        </div>
-        
-        <button type="submit">送信する</button>
-    </form>
+<h1>退館報告フォーム</h1>
+<form id="surveyForm">
+<div class="section-title">基本情報</div>
+<div class="form-group">
+<label for="quitDate">退館日<span class="required">※必須</span></label>
+<input type="date" id="quitDate" required>
 </div>
-
+<div class="form-group">
+<label for="quitTime">退館時刻<span class="required">※必須</span></label>
+<input type="time" id="quitTime" required>
+</div>
+<div class="form-group">
+<label for="exitName">最終退館者名<span class="required">※必須</span></label>
+<input type="text" id="exitName" placeholder="山田 太郎" required>
+</div>
+<div class="form-group">
+<label>対象オフィス<span class="required">※必須</span></label>
+<div class="radio-group">
+<label class="block-item"><input type="radio" name="office" value="山京" required onclick="toggleOffice()"> 山京</label>
+<label class="block-item"><input type="radio" name="office" value="コルティーレ" onclick="toggleOffice()"> コルティーレ</label>
+</div>
+</div>
+<div id="sankyoSection" class="office-section">
+<div class="section-title">施錠・電気・照明の消灯確認【山京】<span class="required">※すべて必須</span></div>
+<div class="form-group">
+<div class="checkbox-group">
+<label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_window"> 【山京】各部屋の窓</label>
+<label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_veranda"> 【山京】ベランダの鍵</label>
+<label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_aircon"> 【山京】エアコン</label>
+<label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_office_light"> 【山京】執務室の照明</label>
+<label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_meeting_light"> 【山京】会議室の照明</label>
+<label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_toilet_light"> 【山京}トイレの照明</label>
+<label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_kitchen_light"> 【山京】給湯室の照明</label>
+<label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_post"> 【山京】ポストの鍵を閉める</label>
+<label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_ev"> 【山京】EV施錠</label>
+</div>
+</div>
+</div>
+<div id="cortileSection" class="office-section">
+<div class="section-title">施錠・電気・照明の消灯確認【コルティーレ】<span class="required">※すべて必須</span></div>
+<div class="form-group">
+<div class="checkbox-group">
+<label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_window"> 【コルティーレ】各部屋の窓</label>
+<label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_smoke_light"> 【コルティーレ】喫煙所電気</label>
+<label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_smoke_hvac"> 【コルティーレ】喫煙所のエアコンorヒーター</label>
+<label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_office_aircon"> 【コルティーレ】執務室内エアコン</label>
+<label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_roomA_aircon"> 【コルティーレ】会議室Aエアコン</label>
+<label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_roomB_aircon"> 【コルティーレ】会議室Bエアコン</label>
+<label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_roomC_aircon"> 【コルティーレ】会議室Cエアコン</label>
+<label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_office_light"> 【コルティーレ】執務室の照明</label>
+<label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_lock_kitchen"> 【コルティーレ】執務室の施錠（給湯室側入り口）</label>
+<label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_lock_meeting"> 【コルティーレ】執務室の施錠（会議室側入り口）</label>
+<label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_room_light"> 【コルティーレ】会議室の照明</label>
+<label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_ent_light"> 【コルティーレ】エントランスの照明</label>
+<label class="block-item"><input type="checkbox" class="cortile-req" id="cortile_secom"> 【コルティーレ】セコム施錠</label>
+</div>
+</div>
+</div>
+<div class="section-title">その他</div>
+<div class="form-group">
+<label for="irregular">イレギュラー事項があれば記入（記述式）</label>
+<textarea id="irregular" rows="4" placeholder="特記事項があれば入力してください"></textarea>
+</div>
+<button type="submit">送信する</button>
+</form>
+</div>
 <script>
-// オフィス選択によって表示を切り替える処理
 function toggleOffice() {
-    const selectedOffice = document.querySelector('input[name="office"]:checked').value;
-    const sankyoDiv = document.getElementById('sankyoSection');
-    const cortileDiv = document.getElementById('cortileSection');
-    
-    if (selectedOffice === '山京') {
-        sankyoDiv.style.display = 'block';
-        cortileDiv.style.display = 'none';
-        // コルティーレ側のチェックを自動リセット
-        document.querySelectorAll('.cortile-req').forEach(cb => cb.checked = false);
-    } else if (selectedOffice === 'コルティーレ') {
-        sankyoDiv.style.display = 'none';
-        cortileDiv.style.display = 'block';
-        // 山京側のチェックを自動リセット
-        document.querySelectorAll('.sankyo-req').forEach(cb => cb.checked = false);
-    }
+var selectedOffice = document.querySelector('input[name="office"]:checked').value;
+var sankyoDiv = document.getElementById('sankyoSection');
+var cortileDiv = document.getElementById('cortileSection');
+if (selectedOffice === '山京') {
+sankyoDiv.style.display = 'block';
+cortileDiv.style.display = 'none';
+document.querySelectorAll('.cortile-req').forEach(function(cb) { cb.checked = false; });
+} else if (selectedOffice === 'コルティーレ') {
+sankyoDiv.style.display = 'none';
+cortileDiv.style.display = 'block';
+document.querySelectorAll('.sankyo-req').forEach(function(cb) { cb.checked = false; });
 }
-
+}
 document.getElementById('surveyForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const gasUrl = 'https://script.google.com/macros/s/AKfycbxlOe29K6oDzHhqdNB1vwvGMSgfzHRVJ7aJq-qkHOnTVRlEQbABR8mKFQhRaEfPlr3X6A/exec';
-    const selectedOffice = document.querySelector('input[name="office"]:checked').value;
-    
-    // 送信前にチェックボックスの必須チェックを行う
-    if (selectedOffice === '山京') {
-        const sankyoCheckboxes = document.querySelectorAll('.sankyo-req');
-        for (let cb of sankyoCheckboxes) {
-            if (!cb.checked) {
-                alert('【山京】の消灯確認項目をすべてチェックしてください。');
-                return;
-            }
-        }
-    } else if (selectedOffice === 'コルティーレ') {
-        const cortileCheckboxes = document.querySelectorAll('.cortile-req');
-        for (let cb of cortileCheckboxes) {
-            if (!cb.checked) {
-                alert('【コルティーレ】の消灯確認項目をすべてチェックしてください。');
-                return;
-            }
-        }
-    }
-    
-    // チェックボックスの値をテキスト化する関数
-    const getCheckVal = (id) => document.getElementById(id).checked ? '✔ 確認済' : 'ー';
-    
-    // データオブジェクトの構築
-    const data = {
-        quitDate: document.getElementById('quitDate').value,
-        quitTime: document.getElementById('quitTime').value,
-        exitName: document.getElementById('exitName').value,
-        office: selectedOffice,
-        sankyo_window: getCheckVal('sankyo_window'),
-        sankyo_veranda: getCheckVal('sankyo_veranda'),
-        sankyo_aircon: getCheckVal('sankyo_aircon'),
-        sankyo_office_light: getCheckVal('sankyo_office_light'),
-        sankyo_meeting_light: getCheckVal('sankyo_meeting_light'),
-        sankyo_toilet_light: getCheckVal('sankyo_toilet_light'),
-        sankyo_kitchen_light: getCheckVal('sankyo_kitchen_light'),
-        sankyo_post: getCheckVal('sankyo_post'),
-        sankyo_ev: getCheckVal('sankyo_ev'),
-        cortile_window: getCheckVal('cortile_window'),
-        cortile_smoke_light: getCheckVal('cortile_smoke_light'),
-        cortile_smoke_hvac: getCheckVal('cortile_smoke_hvac'),
-        cortile_office_aircon:
+e.preventDefault();
+var gasUrl = 'https://script.google.com/macros/s/AKfycbxlOe29K6oDzHhqdNB1vwvGMSgfzHRVJ7aJq-qkHOnTVRlEQbABR8mKFQhRaEfPlr3X6A/exec';
+var officeRadio = document.querySelector('input[name="office"]:checked');
+if (!officeRadio) {
+alert('対象オフィスを選択してください。');
+return;
+}
+var selectedOffice = officeRadio.value;
+if (selectedOffice === '山京') {
+var sankyoCheckboxes = document.querySelectorAll('.sankyo-req');
+for (var i = 0; i < sankyoCheckboxes.length; i++) {
+if (!sankyoCheckboxes[i].checked) {
+alert('【山京】の消灯確認項目をすべてチェックしてください。');
+return;
+}
+}
+} else if (selectedOffice === 'コルティーレ') {
+var cortileCheckboxes = document.querySelectorAll('.cortile-req');
+for (var j = 0; j < cortileCheckboxes.length; j++) {
+if (!cortileCheckboxes[j].checked) {
+alert('【コルティーレ】の消灯確認項目をすべてチェックしてください。');
+return;
+}
+}
+}
+function getCheckVal(id) {
+return document.getElementById(id).checked ? '✔ 確認済' : 'ー';
+}
+var data = {
+quitDate: document.getElementById('quitDate').value,
+quitTime: document.getElementById('quitTime').value,
+exitName: document.getElementById('exitName').value,
+office: selectedOffice,
+sankyo_window: getCheckVal('sankyo_window'),
+sankyo_veranda: getCheckVal('sankyo_veranda'),
+sankyo_aircon: getCheckVal('sankyo_aircon'),
+sankyo_office_light: getCheckVal('sankyo_office_light'),
+sankyo_meeting_light: getCheckVal('sankyo_meeting_light'),
+sankyo_toilet_light: getCheckVal('sankyo_toilet_light'),
+sankyo_kitchen_light: getCheckVal('sankyo_kitchen_light'),
+sankyo_post: getCheckVal('sankyo_post'),
+sankyo_ev: getCheckVal('sankyo_ev'),
+cortile_window: getCheckVal('cortile_window'),
+cortile_smoke_light: getCheckVal('cortile_smoke_light'),
+cortile_smoke_hvac: getCheckVal('cortile_smoke_hvac'),
+cortile_office_aircon: getCheckVal('cortile_office_aircon'),
+cortile_room
