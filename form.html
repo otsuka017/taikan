@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>退館報告フォーム</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm 12mm;
+            background-color: #ffffff;
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333333;
+            font-size: 10.5pt;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 650px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-top: 6px solid #2b579a;
+        }
+        h1 {
+            font-size: 18pt;
+            color: #2b579a;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        p.description {
+            font-size: 10pt;
+            color: #666666;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .section-title {
+            font-size: 11pt;
+            font-weight: bold;
+            color: #2b579a;
+            border-left: 4px solid #2b579a;
+            padding-left: 8px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 10.5pt;
+        }
+        label .required {
+            color: #de3545;
+            font-size: 9pt;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        input[type="text"], input[type="date"], input[type="time"], textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            font-size: 10.5pt;
+            background-color: #fafafa;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus, input[type="date"]:focus, input[type="time"]:focus, textarea:focus {
+            border-color: #2b579a;
+            background-color: #ffffff;
+            outline: none;
+        }
+        .checkbox-group {
+            background-color: #fdfdfd;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+        }
+        .checkbox-item {
+            display: block;
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 10.5pt;
+            user-select: none;
+        }
+        .checkbox-item:last-child {
+            margin-bottom: 0;
+        }
+        .checkbox-item input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        .checkmark {
+            position: absolute;
+            top: 2px;
+            left: 0;
+            height: 18px;
+            width: 18px;
+            background-color: #eeeeee;
+            border: 1px solid #cccccc;
+            border-radius: 3px;
+        }
+        .checkbox-item:hover input ~ .checkmark {
+            background-color: #ddd;
+        }
+        .checkbox-item input:checked ~ .checkmark {
+            background-color: #2b579a;
+            border-color: #2b579a;
+        }
+        .checkmark::after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+        .checkbox-item input:checked ~ .checkmark::after {
+            display: block;
+        }
+        .checkbox-item .checkmark::after {
+            left: 5px;
+            top: 1px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background-color: #2b579a;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 11pt;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #1e3d6b;
+        }
+        .footer-note {
+            text-align: center;
+            font-size: 8.5pt;
+            color: #999999;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>退館報告フォーム</h1>
+    <p class="description">本日の退館チェック項目を入力して「送信」を押してください。</p>
+    
+    <form id="surveyForm">
+        <div class="section-title">基本情報</div>
+        
+        <div class="form-group">
+            <label for="quitDate">退館日<span class="required">※必須</span></label>
+            <input type="date" id="quitDate" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="quitTime">退館時刻<span class="required">※必須</span></label>
+            <input type="time" id="quitTime" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="exitName">最終退館者名<span class="required">※必須</span></label>
+            <input type="text" id="exitName" placeholder="山田 太郎" required>
+        </div>
+        
+        <div class="section-title">施錠・電気・照明の消灯確認</div>
+        <div class="form-group">
+            <div class="checkbox-group">
+                <label class="checkbox-item">
+                    <input type="checkbox" id="check_window" value="完了"> 各部屋の窓
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="check_veranda" value="完了"> 【山京】ベランダの鍵
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="check_aircon" value="完了"> エアコン
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="check_office_light" value="完了"> 執務室の照明
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="check_meeting_light" value="完了"> 会議室の照明
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="check_toilet_light" value="完了"> トイレの照明
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="check_kitchen_light" value="完了"> 給湯室の照明
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="check_post" value="完了"> 【山京】ポストの鍵を閉める
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="check_ev" value="完了"> 【山京】EV施錠
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="section-title">その他</div>
+        <div class="form-group">
+            <label for="irregular">イレギュラー事項があれば記入（記述式）</label>
+            <textarea id="irregular" rows="4" placeholder="特記事項があれば入力してください（例：〇〇の電球が切れかけている、など）"></textarea>
+        </div>
+        
+        <button type="submit">送信する</button>
+    </form>
+    <div class="footer-note">※Googleアカウントへのログインは不要です。</div>
+</div>
+
+<script>
+document.getElementById('surveyForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // ⚠️ GASのウェブアプリURLをここに貼り付けてください
+    const gasUrl = 'https://script.google.com/a/macros/c-vamos.co.jp/s/AKfycbwoFD9IJPp7IkE_U_8bDnufyN53whkJSfMpfkUKf3oFZhgU09rlMuJV-MXXH27rGRFt/exec';
+    
+    // チェックボックスの状態を取得
+    const getCheckVal = (id) => document.getElementById(id).checked ? '✔ 確認済' : '❌ 未確認';
+    
+    // 送信データの準備
+    const data = {
+        quitDate: document.getElementById('quitDate').value,
+        quitTime: document.getElementById('quitTime').value,
+        exitName: document.getElementById('exitName').value,
+        check_window: getCheckVal('check_window'),
+        check_veranda: getCheckVal('check_veranda'),
+        check_aircon: getCheckVal('check_aircon'),
+        check_office_light: getCheckVal('check_office_light'),
+        check_meeting_light: getCheckVal('check_meeting_light'),
+        check_toilet_light: getCheckVal('check_toilet_light'),
+        check_kitchen_light: getCheckVal('check_kitchen_light'),
+        check_post: getCheckVal('check_post'),
+        check_ev: getCheckVal('check_ev'),
+        irregular: document.getElementById('irregular').value
+    };
+    
+    fetch(gasUrl, {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if(result.status === 'success') {
+            alert('退館報告を送信しました。お疲れ様でした！');
+            document.getElementById('surveyForm').reset();
+        } else {
+            alert('エラーが発生しました：' + result.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('通信エラーが発生しました。インターネット接続を確認してください。');
+    });
+});
+</script>
+
+</body>
+</html>
