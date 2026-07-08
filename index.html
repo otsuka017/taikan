@@ -55,7 +55,7 @@ button:hover { background-color: #1e3d6b; }
 <label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_aircon"> 【山京】エアコン</label>
 <label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_office_light"> 【山京】執務室の照明</label>
 <label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_meeting_light"> 【山京】会議室の照明</label>
-<label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_toilet_light"> 【山京}トイレの照明</label>
+<label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_toilet_light"> 【山京】トイレの照明</label>
 <label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_kitchen_light"> 【山京】給湯室の照明</label>
 <label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_post"> 【山京】ポストの鍵を閉める</label>
 <label class="block-item"><input type="checkbox" class="sankyo-req" id="sankyo_ev"> 【山京】EV施錠</label>
@@ -152,4 +152,38 @@ cortile_window: getCheckVal('cortile_window'),
 cortile_smoke_light: getCheckVal('cortile_smoke_light'),
 cortile_smoke_hvac: getCheckVal('cortile_smoke_hvac'),
 cortile_office_aircon: getCheckVal('cortile_office_aircon'),
-cortile_room
+cortile_roomA_aircon: getCheckVal('cortile_roomA_aircon'),
+cortile_roomB_aircon: getCheckVal('cortile_roomB_aircon'),
+cortile_roomC_aircon: getCheckVal('cortile_roomC_aircon'),
+cortile_office_light: getCheckVal('cortile_office_light'),
+cortile_lock_kitchen: getCheckVal('cortile_lock_kitchen'),
+cortile_lock_meeting: getCheckVal('cortile_lock_meeting'),
+cortile_room_light: getCheckVal('cortile_room_light'),
+cortile_ent_light: getCheckVal('cortile_ent_light'),
+cortile_secom: getCheckVal('cortile_secom'),
+irregular: document.getElementById('irregular').value
+};
+fetch(gasUrl, {
+method: 'POST',
+mode: 'cors',
+headers: { 'Content-Type': 'text/plain' },
+body: JSON.stringify(data)
+})
+.then(function(response) { return response.json(); })
+.then(function(result) {
+if (result.status === 'success') {
+alert('退館報告を送信しました。お疲れ様でした！');
+document.getElementById('surveyForm').reset();
+document.getElementById('sankyoSection').style.display = 'none';
+document.getElementById('cortileSection').style.display = 'none';
+} else {
+alert('エラーが発生しました：' + result.message);
+}
+})
+.catch(function(error) {
+alert('通信エラー（詳細）：' + error.message + '\nネット接続かGASの設定を確認してください。');
+});
+});
+</script>
+</body>
+</html>
