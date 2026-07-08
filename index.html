@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>退館報告フォーム</title>
     <style>
-        body { font-family: sans-serif; margin: 0; padding: 20px; background-color: #f8f9fa; color: #333; }
+        body { font-family: sans-serif; margin: 0; padding: 20px; background-color: #f8f9fa; color: #33; }
         .container { max-width: 600px; margin: 0 auto; background: #ffffff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-top: 6px solid #2b579a; }
         h1 { font-size: 20px; color: #2b579a; text-align: center; margin-bottom: 20px; }
         .section-title { font-size: 15px; font-weight: bold; color: #2b579a; border-left: 4px solid #2b579a; padding-left: 8px; margin: 25px 0 15px; }
@@ -107,18 +107,20 @@ function toggleOffice() {
     if (selectedOffice === '山京') {
         sankyoDiv.style.display = 'block';
         cortileDiv.style.display = 'none';
+        // コルティーレ側のチェックを自動リセット
+        document.querySelectorAll('.cortile-req').forEach(cb => cb.checked = false);
     } else if (selectedOffice === 'コルティーレ') {
         sankyoDiv.style.display = 'none';
         cortileDiv.style.display = 'block';
+        // 山京側のチェックを自動リセット
+        document.querySelectorAll('.sankyo-req').forEach(cb => cb.checked = false);
     }
 }
 
 document.getElementById('surveyForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    // ⚠️ 個人アカウント側で作成した最新のGASウェブアプリURLをここに貼り付けてください
     const gasUrl = 'https://script.google.com/macros/s/AKfycbxlOe29K6oDzHhqdNB1vwvGMSgfzHRVJ7aJq-qkHOnTVRlEQbABR8mKFQhRaEfPlr3X6A/exec';
-    
     const selectedOffice = document.querySelector('input[name="office"]:checked').value;
     
     // 送信前にチェックボックスの必須チェックを行う
@@ -143,7 +145,7 @@ document.getElementById('surveyForm').addEventListener('submit', function(e) {
     // チェックボックスの値をテキスト化する関数
     const getCheckVal = (id) => document.getElementById(id).checked ? '✔ 確認済' : 'ー';
     
-    // データオブジェクトの構築（選ばれていない方のオフィス項目は「ー」で送る）
+    // データオブジェクトの構築
     const data = {
         quitDate: document.getElementById('quitDate').value,
         quitTime: document.getElementById('quitTime').value,
@@ -161,40 +163,4 @@ document.getElementById('surveyForm').addEventListener('submit', function(e) {
         cortile_window: getCheckVal('cortile_window'),
         cortile_smoke_light: getCheckVal('cortile_smoke_light'),
         cortile_smoke_hvac: getCheckVal('cortile_smoke_hvac'),
-        cortile_office_aircon: getCheckVal('cortile_office_aircon'),
-        cortile_roomA_aircon: getCheckVal('cortile_roomA_aircon'),
-        cortile_roomB_aircon: getCheckVal('cortile_roomB_aircon'),
-        cortile_roomC_aircon: getCheckVal('cortile_roomC_aircon'),
-        cortile_office_light: getCheckVal('cortile_office_light'),
-        cortile_lock_kitchen: getCheckVal('cortile_lock_kitchen'),
-        cortile_lock_meeting: getCheckVal('cortile_lock_meeting'),
-        cortile_room_light: getCheckVal('cortile_room_light'),
-        cortile_ent_light: getCheckVal('cortile_ent_light'),
-        cortile_secom: getCheckVal('cortile_secom'),
-        irregular: document.getElementById('irregular').value
-    };
-    
-    fetch(gasUrl, {
-        method: 'POST',
-        mode: 'cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(result => {
-        if(result.status === 'success') {
-            alert('退館報告を送信しました。お疲れ様でした！');
-            document.getElementById('surveyForm').reset();
-            document.getElementById('sankyoSection').style.display = 'none';
-            document.getElementById('cortileSection').style.display = 'none';
-        } else {
-            alert('エラーが発生しました：' + result.message);
-        }
-    })
-    .catch(error => {
-        alert('通信エラーが発生しました。接続を確認してください。');
-    });
-});
-</script>
-</body>
-</html>
+        cortile_office_aircon:
